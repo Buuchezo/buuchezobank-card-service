@@ -37,6 +37,18 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(CardApplicationException.class)
+    public ResponseEntity<ApiErrorResponse> handleCardApplicationException(
+            CardApplicationException exception,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.CONFLICT,
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
     @ExceptionHandler(InvalidCardStateException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidCardState(
             InvalidCardStateException exception,
