@@ -21,10 +21,17 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
     private final CardNumberGenerator cardNumberGenerator;
+    private final AccountOwnershipService accountOwnershipService;
 
     @Override
     public CardResponse getCardById(Long id) {
+
         Card card = findCardById(id);
+
+        accountOwnershipService.verifyAccountAccess(
+                card.getAccountNumber()
+        );
+
         card = updateExpiredStatusIfNecessary(card);
 
         return toResponse(card);
@@ -45,6 +52,10 @@ public class CardServiceImpl implements CardService {
                         )
                 );
 
+        accountOwnershipService.verifyAccountAccess(
+                card.getAccountNumber()
+        );
+
         card = updateExpiredStatusIfNecessary(card);
 
         return toResponse(card);
@@ -54,6 +65,11 @@ public class CardServiceImpl implements CardService {
     public List<CardResponse> getCardsByAccountNumber(
             String accountNumber
     ) {
+
+        accountOwnershipService.verifyAccountAccess(
+                accountNumber
+        );
+
         return cardRepository
                 .findByAccountNumber(accountNumber)
                 .stream()
@@ -67,6 +83,11 @@ public class CardServiceImpl implements CardService {
             String accountNumber,
             CardStatus cardStatus
     ) {
+
+        accountOwnershipService.verifyAccountAccess(
+                accountNumber
+        );
+
         return cardRepository
                 .findByAccountNumberAndCardStatus(
                         accountNumber,
