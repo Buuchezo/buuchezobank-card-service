@@ -30,6 +30,14 @@ public class CardController {
                 .body(cardService.createCard(request));
     }
 
+    @GetMapping("/admin/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CardResponse>> getAllCards() {
+        return ResponseEntity.ok(
+                cardService.getAllCards()
+        );
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CardResponse> getCardById(

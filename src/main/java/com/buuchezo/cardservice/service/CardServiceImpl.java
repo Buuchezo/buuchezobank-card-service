@@ -100,6 +100,17 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public List<CardResponse> getAllCards() {
+
+        return cardRepository
+                .findAll()
+                .stream()
+                .map(this::updateExpiredStatusIfNecessary)
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Override
     public CardResponse createCard(CreateCardRequest request) {
 
         validateExpiryDate(request.getExpiryDate());

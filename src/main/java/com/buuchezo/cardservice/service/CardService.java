@@ -19,6 +19,8 @@ public interface CardService {
             CardStatus cardStatus
     );
 
+    List<CardResponse> getAllCards();
+
     CardResponse createCard(CreateCardRequest request);
 
     CardResponse activateCard(Long id);
