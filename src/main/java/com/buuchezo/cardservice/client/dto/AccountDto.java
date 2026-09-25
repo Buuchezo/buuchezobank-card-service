@@ -19,5 +19,12 @@ public class AccountDto {
     private String accountType;
     private String accountStatus;
     private String ownerEmail;
+
+    private String ownershipType;
+
+    private Long businessId;
+
+    private String businessName;
+
     private LocalDateTime createdAt;
 }
